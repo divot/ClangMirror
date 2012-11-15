@@ -24,6 +24,7 @@ namespace clang {
   class Token;
   class IdentifierInfo;
   class PragmaNamespace;
+  class SourceRange;
 
   /**
    * \brief Describes how the pragma was introduced, e.g., with \#pragma,
@@ -65,7 +66,7 @@ public:
 
   StringRef getName() const { return Name; }
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &FirstToken) = 0;
+                            SourceRange IntroducerRange, Token &FirstToken) = 0;
 
   /// getIfNamespace - If this is a namespace, return it.  This is equivalent to
   /// using a dynamic_cast, but doesn't require RTTI.
