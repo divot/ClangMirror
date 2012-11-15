@@ -80,7 +80,7 @@ public:
   EmptyPragmaHandler();
 
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &FirstToken);
+                            SourceRange IntroducerRange, Token &FirstToken);
 };
 
 /// PragmaNamespace - This PragmaHandler subdivides the namespace of pragmas,

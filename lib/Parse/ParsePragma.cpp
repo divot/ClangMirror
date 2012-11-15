@@ -156,6 +156,7 @@ void Parser::HandlePragmaOpenCLExtension() {
 //   'pop'
 void PragmaGCCVisibilityHandler::HandlePragma(Preprocessor &PP, 
                                               PragmaIntroducerKind Introducer,
+                                              SourceRange IntroducerRange, 
                                               Token &VisTok) {
   SourceLocation VisLoc = VisTok.getLocation();
 
@@ -215,6 +216,7 @@ void PragmaGCCVisibilityHandler::HandlePragma(Preprocessor &PP,
 //   pack '(' ('push' | 'pop') [',' identifier] [, integer] ')'
 void PragmaPackHandler::HandlePragma(Preprocessor &PP, 
                                      PragmaIntroducerKind Introducer,
+                                     SourceRange IntroducerRange, 
                                      Token &PackTok) {
   SourceLocation PackLoc = PackTok.getLocation();
 
@@ -331,6 +333,7 @@ void PragmaPackHandler::HandlePragma(Preprocessor &PP,
 // #pragma ms_struct off
 void PragmaMSStructHandler::HandlePragma(Preprocessor &PP, 
                                          PragmaIntroducerKind Introducer,
+                                         SourceRange IntroducerRange, 
                                          Token &MSStructTok) {
   Sema::PragmaMSStructKind Kind = Sema::PMSST_OFF;
   
@@ -442,12 +445,14 @@ static void ParseAlignPragma(Preprocessor &PP, Token &FirstTok,
 
 void PragmaAlignHandler::HandlePragma(Preprocessor &PP, 
                                       PragmaIntroducerKind Introducer,
+                                      SourceRange IntroducerRange,
                                       Token &AlignTok) {
   ParseAlignPragma(PP, AlignTok, /*IsOptions=*/false);
 }
 
 void PragmaOptionsHandler::HandlePragma(Preprocessor &PP, 
                                         PragmaIntroducerKind Introducer,
+                                        SourceRange IntroducerRange,
                                         Token &OptionsTok) {
   ParseAlignPragma(PP, OptionsTok, /*IsOptions=*/true);
 }
@@ -455,6 +460,7 @@ void PragmaOptionsHandler::HandlePragma(Preprocessor &PP,
 // #pragma unused(identifier)
 void PragmaUnusedHandler::HandlePragma(Preprocessor &PP, 
                                        PragmaIntroducerKind Introducer,
+                                       SourceRange IntroducerRange,
                                        Token &UnusedTok) {
   // FIXME: Should we be expanding macros here? My guess is no.
   SourceLocation UnusedLoc = UnusedTok.getLocation();
@@ -537,6 +543,7 @@ void PragmaUnusedHandler::HandlePragma(Preprocessor &PP,
 // #pragma weak identifier '=' identifier
 void PragmaWeakHandler::HandlePragma(Preprocessor &PP, 
                                      PragmaIntroducerKind Introducer,
+                                     SourceRange IntroducerRange,
                                      Token &WeakTok) {
   SourceLocation WeakLoc = WeakTok.getLocation();
 
@@ -597,7 +604,8 @@ void PragmaWeakHandler::HandlePragma(Preprocessor &PP,
 
 // #pragma redefine_extname identifier identifier
 void PragmaRedefineExtnameHandler::HandlePragma(Preprocessor &PP, 
-                                               PragmaIntroducerKind Introducer,
+                                                PragmaIntroducerKind Introducer,
+                                                SourceRange IntroducerRange,
                                                 Token &RedefToken) {
   SourceLocation RedefLoc = RedefToken.getLocation();
 
@@ -644,6 +652,7 @@ void PragmaRedefineExtnameHandler::HandlePragma(Preprocessor &PP,
 void
 PragmaFPContractHandler::HandlePragma(Preprocessor &PP, 
                                       PragmaIntroducerKind Introducer,
+                                      SourceRange IntroducerRange,
                                       Token &Tok) {
   tok::OnOffSwitch OOS;
   if (PP.LexOnOffSwitch(OOS))
@@ -665,6 +674,7 @@ PragmaFPContractHandler::HandlePragma(Preprocessor &PP,
 void 
 PragmaOpenCLExtensionHandler::HandlePragma(Preprocessor &PP, 
                                            PragmaIntroducerKind Introducer,
+                                           SourceRange IntroducerRange,
                                            Token &Tok) {
   PP.LexUnexpandedToken(Tok);
   if (Tok.isNot(tok::identifier)) {

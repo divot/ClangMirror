@@ -484,7 +484,7 @@ struct UnknownPragmaHandler : public PragmaHandler {
   UnknownPragmaHandler(const char *prefix, PrintPPOutputPPCallbacks *callbacks)
     : Prefix(prefix), Callbacks(callbacks) {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &PragmaTok) {
+                            SourceRange IntroducerRange, Token &PragmaTok) {
     // Figure out what line we went to and insert the appropriate number of
     // newline characters.
     Callbacks->startNewLineIfNeeded();

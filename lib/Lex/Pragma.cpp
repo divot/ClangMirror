@@ -37,6 +37,7 @@ EmptyPragmaHandler::EmptyPragmaHandler() {}
 
 void EmptyPragmaHandler::HandlePragma(Preprocessor &PP, 
                                       PragmaIntroducerKind Introducer,
+                                      SourceRange IntroducerRange, 
                                       Token &FirstToken) {}
 
 //===----------------------------------------------------------------------===//
@@ -904,7 +905,7 @@ namespace {
 struct PragmaOnceHandler : public PragmaHandler {
   PragmaOnceHandler() : PragmaHandler("once") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &OnceTok) {
+                            SourceRange IntroducerRange, Token &OnceTok) {
     PP.CheckEndOfDirective("pragma once");
     PP.HandlePragmaOnce(OnceTok);
   }
@@ -915,7 +916,7 @@ struct PragmaOnceHandler : public PragmaHandler {
 struct PragmaMarkHandler : public PragmaHandler {
   PragmaMarkHandler() : PragmaHandler("mark") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &MarkTok) {
+                            SourceRange IntroducerRange, Token &MarkTok) {
     PP.HandlePragmaMark();
   }
 };
@@ -924,7 +925,7 @@ struct PragmaMarkHandler : public PragmaHandler {
 struct PragmaPoisonHandler : public PragmaHandler {
   PragmaPoisonHandler() : PragmaHandler("poison") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &PoisonTok) {
+                            SourceRange IntroducerRange, Token &PoisonTok) {
     PP.HandlePragmaPoison(PoisonTok);
   }
 };
@@ -934,7 +935,7 @@ struct PragmaPoisonHandler : public PragmaHandler {
 struct PragmaSystemHeaderHandler : public PragmaHandler {
   PragmaSystemHeaderHandler() : PragmaHandler("system_header") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &SHToken) {
+                            SourceRange IntroducerRange, Token &SHToken) {
     PP.HandlePragmaSystemHeader(SHToken);
     PP.CheckEndOfDirective("pragma");
   }
@@ -942,7 +943,7 @@ struct PragmaSystemHeaderHandler : public PragmaHandler {
 struct PragmaDependencyHandler : public PragmaHandler {
   PragmaDependencyHandler() : PragmaHandler("dependency") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &DepToken) {
+                            SourceRange IntroducerRange, Token &DepToken) {
     PP.HandlePragmaDependency(DepToken);
   }
 };
@@ -950,7 +951,7 @@ struct PragmaDependencyHandler : public PragmaHandler {
 struct PragmaDebugHandler : public PragmaHandler {
   PragmaDebugHandler() : PragmaHandler("__debug") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &DepToken) {
+                            SourceRange IntroducerRange, Token &DepToken) {
     Token Tok;
     PP.LexUnexpandedToken(Tok);
     if (Tok.isNot(tok::identifier)) {
@@ -1004,7 +1005,7 @@ public:
   explicit PragmaDiagnosticHandler(const char *NS) :
     PragmaHandler("diagnostic"), Namespace(NS) {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &DiagToken) {
+                            SourceRange IntroducerRange, Token &DiagToken) {
     SourceLocation DiagLoc = DiagToken.getLocation();
     Token Tok;
     PP.LexUnexpandedToken(Tok);
@@ -1072,7 +1073,7 @@ public:
 struct PragmaCommentHandler : public PragmaHandler {
   PragmaCommentHandler() : PragmaHandler("comment") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &CommentTok) {
+                            SourceRange IntroducerRange, Token &CommentTok) {
     PP.HandlePragmaComment(CommentTok);
   }
 };
@@ -1081,7 +1082,7 @@ struct PragmaCommentHandler : public PragmaHandler {
 struct PragmaIncludeAliasHandler : public PragmaHandler {
   PragmaIncludeAliasHandler() : PragmaHandler("include_alias") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &IncludeAliasTok) {
+                            SourceRange IntroducerRange, Token &IncludeAliasTok) {
       PP.HandlePragmaIncludeAlias(IncludeAliasTok);
   }
 };
@@ -1090,7 +1091,7 @@ struct PragmaIncludeAliasHandler : public PragmaHandler {
 struct PragmaMessageHandler : public PragmaHandler {
   PragmaMessageHandler() : PragmaHandler("message") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &CommentTok) {
+                            SourceRange IntroducerRange, Token &CommentTok) {
     PP.HandlePragmaMessage(CommentTok);
   }
 };
@@ -1100,7 +1101,7 @@ struct PragmaMessageHandler : public PragmaHandler {
 struct PragmaPushMacroHandler : public PragmaHandler {
   PragmaPushMacroHandler() : PragmaHandler("push_macro") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &PushMacroTok) {
+                            SourceRange IntroducerRange, Token &PushMacroTok) {
     PP.HandlePragmaPushMacro(PushMacroTok);
   }
 };
@@ -1111,7 +1112,7 @@ struct PragmaPushMacroHandler : public PragmaHandler {
 struct PragmaPopMacroHandler : public PragmaHandler {
   PragmaPopMacroHandler() : PragmaHandler("pop_macro") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &PopMacroTok) {
+                            SourceRange IntroducerRange, Token &PopMacroTok) {
     PP.HandlePragmaPopMacro(PopMacroTok);
   }
 };
@@ -1122,7 +1123,7 @@ struct PragmaPopMacroHandler : public PragmaHandler {
 struct PragmaSTDC_FENV_ACCESSHandler : public PragmaHandler {
   PragmaSTDC_FENV_ACCESSHandler() : PragmaHandler("FENV_ACCESS") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &Tok) {
+                            SourceRange IntroducerRange, Token &Tok) {
     tok::OnOffSwitch OOS;
     if (PP.LexOnOffSwitch(OOS))
      return;
@@ -1136,7 +1137,7 @@ struct PragmaSTDC_CX_LIMITED_RANGEHandler : public PragmaHandler {
   PragmaSTDC_CX_LIMITED_RANGEHandler()
     : PragmaHandler("CX_LIMITED_RANGE") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &Tok) {
+                            SourceRange IntroducerRange, Token &Tok) {
     tok::OnOffSwitch OOS;
     PP.LexOnOffSwitch(OOS);
   }
@@ -1146,7 +1147,7 @@ struct PragmaSTDC_CX_LIMITED_RANGEHandler : public PragmaHandler {
 struct PragmaSTDC_UnknownHandler : public PragmaHandler {
   PragmaSTDC_UnknownHandler() {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &UnknownTok) {
+                            SourceRange IntroducerRange, Token &UnknownTok) {
     // C99 6.10.6p2, unknown forms are not allowed.
     PP.Diag(UnknownTok, diag::ext_stdc_pragma_ignored);
   }
@@ -1157,7 +1158,7 @@ struct PragmaSTDC_UnknownHandler : public PragmaHandler {
 struct PragmaARCCFCodeAuditedHandler : public PragmaHandler {
   PragmaARCCFCodeAuditedHandler() : PragmaHandler("arc_cf_code_audited") {}
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &NameTok) {
+                            SourceRange IntroducerRange, Token &NameTok) {
     SourceLocation Loc = NameTok.getLocation();
     bool IsBegin;
 
