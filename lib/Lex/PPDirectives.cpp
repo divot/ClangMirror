@@ -654,6 +654,8 @@ TryAgain:
     return HandleDigitDirective(Result);
   default:
     IdentifierInfo *II = Result.getIdentifierInfo();
+    SourceRange DirectiveRange(SavedHash.getLocation(),
+                        		getLocForEndOfToken(Result.getLocation()));
     if (II == 0) break;  // Not an identifier.
 
     // Ask what the preprocessor keyword ID is.
@@ -697,7 +699,7 @@ TryAgain:
 
     // C99 6.10.6 - Pragma Directive.
     case tok::pp_pragma:
-      return HandlePragmaDirective(PIK_HashPragma);
+      return HandlePragmaDirective(PIK_HashPragma, DirectiveRange);
 
     // GNU Extensions.
     case tok::pp_import:

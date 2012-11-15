@@ -264,7 +264,7 @@ void Preprocessor::Handle_Pragma(Token &Tok) {
   EnterSourceFileWithLexer(TL, 0);
 
   // With everything set up, lex this as a #pragma directive.
-  HandlePragmaDirective(PIK__Pragma);
+  HandlePragmaDirective(PIK__Pragma, SourceRange(PragmaLoc, getLocForEndOfToken(PragmaLoc)));
 
   // Finally, return whatever came after the pragma directive.
   return Lex(Tok);
@@ -313,7 +313,7 @@ void Preprocessor::HandleMicrosoft__pragma(Token &Tok) {
   EnterTokenStream(TokArray, PragmaToks.size(), true, true);
 
   // With everything set up, lex this as a #pragma directive.
-  HandlePragmaDirective(PIK___pragma);
+  HandlePragmaDirective(PIK___pragma, SourceRange(PragmaLoc, getLocForEndOfToken(PragmaLoc)));
 
   // Finally, return whatever came after the pragma directive.
   return Lex(Tok);
