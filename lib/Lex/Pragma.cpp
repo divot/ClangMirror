@@ -76,6 +76,7 @@ void PragmaNamespace::RemovePragmaHandler(PragmaHandler *Handler) {
 
 void PragmaNamespace::HandlePragma(Preprocessor &PP, 
                                    PragmaIntroducerKind Introducer,
+                                   SourceRange IntroducerRange,
                                    Token &Tok) {
   // Read the 'namespace' that the directive is in, e.g. STDC.  Do not macro
   // expand it, the user can have a STDC #define, that should not affect this.
@@ -92,7 +93,7 @@ void PragmaNamespace::HandlePragma(Preprocessor &PP,
   }
 
   // Otherwise, pass it down.
-  Handler->HandlePragma(PP, Introducer, Tok);
+  Handler->HandlePragma(PP, Introducer, IntroducerRange, Tok);
 }
 
 //===----------------------------------------------------------------------===//

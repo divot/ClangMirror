@@ -116,7 +116,7 @@ public:
   }
 
   virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                            Token &FirstToken);
+                            SourceRange IntroducerRange, Token &FirstToken);
 
   virtual PragmaNamespace *getIfNamespace() { return this; }
 };
