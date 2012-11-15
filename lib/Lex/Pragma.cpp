@@ -102,7 +102,8 @@ void PragmaNamespace::HandlePragma(Preprocessor &PP,
 
 /// HandlePragmaDirective - The "\#pragma" directive has been parsed.  Lex the
 /// rest of the pragma, passing it to the registered pragma handlers.
-void Preprocessor::HandlePragmaDirective(unsigned Introducer) {
+void Preprocessor::HandlePragmaDirective(unsigned Introducer,
+                                         SourceRange IntroducerRange) {
   if (!PragmasEnabled)
     return;
 
@@ -110,7 +111,8 @@ void Preprocessor::HandlePragmaDirective(unsigned Introducer) {
 
   // Invoke the first level of pragma handlers which reads the namespace id.
   Token Tok;
-  PragmaHandlers->HandlePragma(*this, PragmaIntroducerKind(Introducer), Tok);
+  PragmaHandlers->HandlePragma(*this, PragmaIntroducerKind(Introducer), 
+                               IntroducerRange, Tok);
 
   // If the pragma handler didn't read the rest of the line, consume it now.
   if ((CurTokenLexer && CurTokenLexer->isParsingPreprocessorDirective()) 
