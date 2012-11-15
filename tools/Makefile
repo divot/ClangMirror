@@ -15,7 +15,7 @@ DIRS := driver libclang c-index-test arcmt-test c-arcmt-test diagtool \
         clang-check
 
 # Recurse into the extra repository of tools if present.
-OPTIONAL_DIRS := extra
+OPTIONAL_DIRS := extra SpecCodeConv
 
 ifeq ($(BUILD_CLANG_ONLY),YES)
   DIRS := driver libclang c-index-test
