@@ -37,7 +37,7 @@ EmptyPragmaHandler::EmptyPragmaHandler() {}
 
 void EmptyPragmaHandler::HandlePragma(Preprocessor &PP, 
                                       PragmaIntroducerKind Introducer,
-                                      SourceRange IntroducerRange, 
+                                      SourceRange IntroducerRange,
                                       Token &FirstToken) {}
 
 //===----------------------------------------------------------------------===//
@@ -112,7 +112,7 @@ void Preprocessor::HandlePragmaDirective(unsigned Introducer,
 
   // Invoke the first level of pragma handlers which reads the namespace id.
   Token Tok;
-  PragmaHandlers->HandlePragma(*this, PragmaIntroducerKind(Introducer), 
+  PragmaHandlers->HandlePragma(*this, PragmaIntroducerKind(Introducer),
                                IntroducerRange, Tok);
 
   // If the pragma handler didn't read the rest of the line, consume it now.

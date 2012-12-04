@@ -655,7 +655,7 @@ TryAgain:
   default:
     IdentifierInfo *II = Result.getIdentifierInfo();
     SourceRange DirectiveRange(SavedHash.getLocation(),
-                        		getLocForEndOfToken(Result.getLocation()));
+                               getLocForEndOfToken(Result.getLocation()));
     if (II == 0) break;  // Not an identifier.
 
     // Ask what the preprocessor keyword ID is.

@@ -156,7 +156,7 @@ void Parser::HandlePragmaOpenCLExtension() {
 //   'pop'
 void PragmaGCCVisibilityHandler::HandlePragma(Preprocessor &PP, 
                                               PragmaIntroducerKind Introducer,
-                                              SourceRange IntroducerRange, 
+                                              SourceRange IntroducerRange,
                                               Token &VisTok) {
   SourceLocation VisLoc = VisTok.getLocation();
 
@@ -216,7 +216,7 @@ void PragmaGCCVisibilityHandler::HandlePragma(Preprocessor &PP,
 //   pack '(' ('push' | 'pop') [',' identifier] [, integer] ')'
 void PragmaPackHandler::HandlePragma(Preprocessor &PP, 
                                      PragmaIntroducerKind Introducer,
-                                     SourceRange IntroducerRange, 
+                                     SourceRange IntroducerRange,
                                      Token &PackTok) {
   SourceLocation PackLoc = PackTok.getLocation();
 
@@ -333,7 +333,7 @@ void PragmaPackHandler::HandlePragma(Preprocessor &PP,
 // #pragma ms_struct off
 void PragmaMSStructHandler::HandlePragma(Preprocessor &PP, 
                                          PragmaIntroducerKind Introducer,
-                                         SourceRange IntroducerRange, 
+                                         SourceRange IntroducerRange,
                                          Token &MSStructTok) {
   Sema::PragmaMSStructKind Kind = Sema::PMSST_OFF;
   
