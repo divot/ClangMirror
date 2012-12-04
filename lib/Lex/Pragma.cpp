@@ -1222,7 +1222,7 @@ struct PragmaARCCFCodeAuditedHandler : public PragmaHandler {
     PragmaRegionHandler(const char *pragma) : PragmaHandler(pragma) { }
 
     virtual void HandlePragma(Preprocessor &PP, PragmaIntroducerKind Introducer,
-                              Token &NameTok) {
+                              SourceRange IntroducerRange, Token &NameTok) {
       // #pragma region: endregion matches can be verified
       // __pragma(region): no sense, but ignored by msvc
       // _Pragma is not valid for MSVC, but there isn't any point
